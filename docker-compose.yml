@@ -1,0 +1,37 @@
+version: "3.4"
+
+networks:
+    frontend:
+    backend:
+
+services:
+    eventcatalog:
+        build:
+            context: .\ProductCatalogAPI
+            dockerfile: Dockerfile
+        image: event/eventcatalogapi
+        environment:
+            DatabaseServer: mssqlserver
+            DatabaseName: eventCatalogDb
+            DatabaseUser: sa
+            DatabaseUserPassword: ProductApi(!)
+            ExternalCatalogBaseUrl: http://localhost:5010
+        container_name: eventcatalogapi
+        ports:
+            - "5010:80"
+        networks:
+            - backend
+            - frontend
+        depends_on:
+            - mssqlserver
+
+    mssqlserver:
+        image: "microsoft/mssql-server-linux:latest"
+        environment:
+            ACCEPT_EULA: Y
+            SA_PASSWORD: ProductApi(!)
+        container_name: eventcatalogdb
+        ports:
+            - "1446:1433"
+        networks:
+            - backend
