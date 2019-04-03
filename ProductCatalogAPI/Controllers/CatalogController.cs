@@ -12,6 +12,8 @@ using ProductCatalogAPI.ViewModels;
 
 namespace ProductCatalogAPI.Controllers
 {
+
+
     [Produces("application/json")]
     [Route("api/Catalog")]
     public class CatalogController : Controller
